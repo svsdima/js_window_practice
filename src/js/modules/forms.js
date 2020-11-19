@@ -1,15 +1,11 @@
-/* Работа с формами отправки данных */
-const forms = () => {
-    const form = document.querySelectorAll('form'),
-          inputs = document.querySelectorAll('input'), /* Инпут нужен, чтобы очищать инпуты после отправки на сервер */
-          phoneInputs = document.querySelectorAll('input[name="user_phone"]');
+import checkNumInputs from './checkNumInputs';
 
-    /* Проверка на ввод в номер телефона ТОЛЬКО числа */
-    phoneInputs.forEach(item => {
-        item.addEventListener('input', () => {
-            item.value = item.value.replace(/\D/, '');
-        });
-    });
+/* Работа с формами отправки данных */
+const forms = (state) => {
+    const form = document.querySelectorAll('form'),
+          inputs = document.querySelectorAll('input'); /* Инпут нужен, чтобы очищать инпуты после отправки на сервер */
+
+    checkNumInputs('input[name="user_phone"]');
 
     /* Оповещения */
     const message = {
@@ -48,6 +44,11 @@ const forms = () => {
 
             /* Собираем все данные формы */
             const formData = new FormData(item);
+            if (item.getAttribute('data-calc') === "end") {
+                for (let key in state) {
+                    formData.append(key, state[key]);
+                }
+            }
 
             /* Отправляем запрос на сервер с данными, которые были получены */
             postData('assets/server.php', formData)
