@@ -17810,6 +17810,7 @@ window.addEventListener('DOMContentLoaded', function () {
   Object(_modules_modals__WEBPACK_IMPORTED_MODULE_1__["default"])();
   Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_2__["default"])('.glazing_slider', '.glazing_block', '.glazing_content', 'active');
   Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_2__["default"])('.decoration_slider', '.no_click', '.decoration_content > div > div', 'after_click');
+  Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_2__["default"])('.balcon_icons', '.balcon_icons_img', '.big_img > img', 'do_image_more', 'inline-block');
   Object(_modules_forms__WEBPACK_IMPORTED_MODULE_3__["default"])();
 });
 
@@ -17956,9 +17957,11 @@ __webpack_require__.r(__webpack_exports__);
 var modals = function modals() {
   /* Привязка модального окна к триггеру */
   function bindModal(triggerSelector, modalSelector, closeSelector) {
+    var closeClickOverlay = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
     var trigger = document.querySelectorAll(triggerSelector),
         modal = document.querySelector(modalSelector),
-        close = document.querySelector(closeSelector);
+        close = document.querySelector(closeSelector),
+        windows = document.querySelectorAll('[data-modal]');
     /* При клике на триггер, открывается модальное окно */
 
     /* forEach существует, если использовался querySelectorAll */
@@ -17969,8 +17972,11 @@ var modals = function modals() {
         if (e.target) {
           e.preventDefault();
         }
-        /* Включаем отображение окна */
 
+        windows.forEach(function (item) {
+          item.style.display = 'none';
+        });
+        /* Включаем отображение окна */
 
         modal.style.display = 'block';
         /* Отключаем скроллинг страницы при вызове окна */
@@ -17981,7 +17987,11 @@ var modals = function modals() {
     /* При клике на крестик, закрываем модальное окно */
 
     close.addEventListener('click', function () {
+      windows.forEach(function (item) {
+        item.style.display = 'none';
+      });
       /* Отключаем отображение окна */
+
       modal.style.display = 'none';
       /* Включаем скроллинг страницы при закрытии окна */
 
@@ -17990,8 +18000,12 @@ var modals = function modals() {
     /* При клике в тёмную область (за границей модального окна), модальное окно будет закрываться */
 
     modal.addEventListener('click', function (e) {
-      if (e.target === modal) {
+      if (e.target === modal && closeClickOverlay) {
+        windows.forEach(function (item) {
+          item.style.display = 'none';
+        });
         /* Отключаем отображение окна */
+
         modal.style.display = 'none';
         /* Включаем скроллинг страницы при закрытии окна */
 
@@ -18014,7 +18028,10 @@ var modals = function modals() {
 
 
   bindModal('.popup_engineer_btn', '.popup_engineer', '.popup_engineer .popup_close');
-  bindModal('.phone_link', '.popup', '.popup .popup_close'); // showModalByTime('.popup', 60000);
+  bindModal('.phone_link', '.popup', '.popup .popup_close');
+  bindModal('.popup_calc_btn', '.popup_calc', '.popup_calc_close');
+  bindModal('.popup_calc_button', '.popup_calc_profile', '.popup_calc_profile_close', false);
+  bindModal('.popup_calc_profile_button', '.popup_calc_end', '.popup_calc_end_close', false); // showModalByTime('.popup', 60000);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (modals);
@@ -18039,6 +18056,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* Работа с табами (вкладками) на странице */
 var tabs = function tabs(headerSelector, tabSelector, contentSelector, activeClass) {
+  var display = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 'block';
   var header = document.querySelector(headerSelector),
       tab = document.querySelectorAll(tabSelector),
       content = document.querySelectorAll(contentSelector);
@@ -18062,7 +18080,7 @@ var tabs = function tabs(headerSelector, tabSelector, contentSelector, activeCla
     var i = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
     /* Показываем контент */
-    content[i].style.display = 'block';
+    content[i].style.display = display;
     /* Добавляем класс активности */
 
     tab[i].classList.add(activeClass);

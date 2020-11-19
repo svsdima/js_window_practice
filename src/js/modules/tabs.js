@@ -1,5 +1,5 @@
 /* Работа с табами (вкладками) на странице */
-const tabs = (headerSelector, tabSelector, contentSelector, activeClass) => {
+const tabs = (headerSelector, tabSelector, contentSelector, activeClass, display = 'block') => {
     const header = document.querySelector(headerSelector),
           tab = document.querySelectorAll(tabSelector),
           content = document.querySelectorAll(contentSelector);
@@ -20,7 +20,7 @@ const tabs = (headerSelector, tabSelector, contentSelector, activeClass) => {
     /* Показ таба */
     function showTabContent(i = 0) {
         /* Показываем контент */
-        content[i].style.display = 'block';
+        content[i].style.display = display;
 
         /* Добавляем класс активности */
         tab[i].classList.add(activeClass);
