@@ -1,3 +1,4 @@
+/* Работа с модальными окнами */
 const modals = () => {
     /* Привязка модального окна к триггеру */
     function bindModal(triggerSelector, modalSelector, closeSelector) {
