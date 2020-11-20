@@ -5,7 +5,8 @@ const modals = () => {
         const trigger = document.querySelectorAll(triggerSelector),
               modal = document.querySelector(modalSelector),
               close = document.querySelector(closeSelector),
-              windows = document.querySelectorAll('[data-modal]');
+              windows = document.querySelectorAll('[data-modal]'),
+              scroll = calcScroll;
 
 
         /* При клике на триггер, открывается модальное окно */
@@ -25,6 +26,7 @@ const modals = () => {
                 modal.style.display = 'block';
                 /* Отключаем скроллинг страницы при вызове окна */
                 document.body.style.overflow = "hidden";
+                document.body.style.marginRight = `${scroll}px`;
                 // document.body.classList.add('modal-open');
             });
         });
@@ -39,6 +41,7 @@ const modals = () => {
             modal.style.display = 'none';
             /* Включаем скроллинг страницы при закрытии окна */
             document.body.style.overflow = "";
+            document.body.style.marginRight = `0px`;
             // document.body.classList.remove('modal-open');
         });
 
@@ -53,6 +56,7 @@ const modals = () => {
                 modal.style.display = 'none';
                 /* Включаем скроллинг страницы при закрытии окна */
                 document.body.style.overflow = "";
+                document.body.style.marginRight = `0px`;
                 // document.body.classList.remove('modal-open');
             }
         });
@@ -64,7 +68,26 @@ const modals = () => {
             document.querySelector(selector).style.display = 'block';
             /* Отключаем скроллинг страницы при вызове окна */
             document.body.style.overflow = "hidden";
+            document.body.style.marginRight = `${scroll}px`;
         }, time);
+    }
+
+    /* Убираем прыжок страницы из-за скролла */
+    function calcScroll() {
+        let div = document.createElement('div');
+
+        div.style.width = '50px';
+        div.style.height = '50px';
+        div.style.overflowY = 'scroll';
+        div.style.visibility = 'hidden';
+
+        document.body.appendChild(div);
+
+        /* Вычисляем размер прокрутки */
+        let scrollWidth = div.offsetWidth - div.clientWidth;
+        div.remove();
+
+        return scrollWidth;
     }
 
     /* Включаем скрипт не забывая прописывать селекторы */
