@@ -4,6 +4,7 @@ import tabs from './modules/tabs';
 import forms from './modules/forms';
 import changeModalState from './modules/changeModalState';
 import timer from './modules/timer';
+import images from './modules/images';
 
 /* Скрипт запускается, только когда DOM структура (вёрстка сайта) полностью готова */
 window.addEventListener('DOMContentLoaded', () => {
@@ -23,4 +24,5 @@ window.addEventListener('DOMContentLoaded', () => {
     tabs('.balcon_icons', '.balcon_icons_img', '.big_img > img', 'do_image_more', 'inline-block');
     forms(modalState);
     timer('.container1', dedline);
+    images();
 });
